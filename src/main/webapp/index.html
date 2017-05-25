@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Mqtt Web Client</title>
+<link rel="stylesheet" href="plugin/bootstrap/css/bootstrap.min.css" />
+<!--页面独有css-->
+</head>
+<body>
+	<div class="header">
+		<label>主机号：</label><input id="address" placeholder="输入broker地址.." /> 
+		<label>端口号：</label><input id="port" placeholder="输入broker的端口。。" /> 
+		<input id="connectbtn" type="button" value="Connect" /> 
+		<input id="disconnectbtn" type="button" value="DisConnect" />
+		<lable id="info"></lable>
+	</div>
+	<div class=""></div>
+
+
+	<!--公共js-->
+	<script type="text/javascript"
+		src="plugin/jquery/jquery.min.js"></script>
+	<script type="text/javascript"
+		src="plugin/bootstrap/js/bootstrap.min.js"></script>
+	<script type="text/javascript"
+		src="plugin/layer/layer.min.js"></script>
+	<!--独有js-->
+	<script type="text/javascript" src="js/index.js"></script>
+</body>
+</html>
