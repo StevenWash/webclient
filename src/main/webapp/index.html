@@ -4,27 +4,178 @@
 <meta charset="utf-8" />
 <title>Mqtt Web Client</title>
 <link rel="stylesheet" href="plugin/bootstrap/css/bootstrap.min.css" />
-<!--页面独有css-->
+<link rel="stylesheet" href="css/index.css" />
 </head>
 <body>
 	<div class="header">
-		<label>主机号：</label><input id="address" placeholder="输入broker地址.." /> 
-		<label>端口号：</label><input id="port" placeholder="输入broker的端口。。" /> 
-		<input id="connectbtn" type="button" value="Connect" /> 
-		<input id="disconnectbtn" type="button" value="DisConnect" />
-		<lable id="info"></lable>
+		<div class="form-group">
+			<label class="control-label">主机号：</label><input id="address"
+				placeholder="输入broker地址.." /> <label class="control-label">端口号：</label><input
+				id="port" placeholder="输入broker的端口。。" />
+
+			<button id="connectbtn" type="button" class="btn btn-primary">Connect</button>
+			<button id="disconnectbtn" type="button" class="btn btn-primary">DisConnect</button>
+			<lable id="info"></lable>
+
+
+			<div id="connopts">
+				<button id="history" type="button" class="btn btn-primary">History</button>
+				<!-- Button trigger modal -->
+				<button id="connbtn" type="button" class="btn btn-primary"
+					data-toggle="modal" data-target="#exampleModal">Connect
+					Options</button>
+				<!-- modal -->
+				<div class="modal fade" id="exampleModal" tabindex="-1"
+					role="dialog" aria-labelledby="exampleModalLabel">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal"
+									aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+								<h4 class="modal-title" id="exampleModalLabel">Connect
+									Options</h4>
+							</div>
+							<div class="modal-body">
+								<form class="form-inline">
+									<div class="form-group">
+										<label for="sessionopts" class="control-label ">Session
+											Options:</label>
+										<button type="button" class="btn btn-primary form-control"
+											id="sessionopts" value="1">Trace(start)</button>
+									</div>
+									<div class="form-group clientId">
+										<label for="clientId" class="control-label">Client
+											Identifier:</label> <input type="text" class="form-control"
+											id="clientId" value="Mqtt-web-client">
+										</textarea>
+									</div>
+									<div class="form-group">
+										<label for="cleansession" class="control-label">Clean
+											Session:</label> <input type="checkbox" class="form-control"
+											id="cleansession" checked="checked">
+									</div>
+									<div class="form-group keepalive">
+										<label for="keepalive" class="control-label">Keep
+											Alive:</label> <input type="text" class="form-control" id="keepalive"
+											value="30">
+									</div>
+									<div class="form-group">
+										<label for="retryinterval" class="control-label">Retry
+											Interval:</label> <input type="text" class="form-control retryInput"
+											id="retryinterval" value="30"><label>Sec</label>
+									</div>
+									<div class="form-group usepersis">
+										<label for="usepersis" class="control-label">Use
+											Persistence:</label> <input type="checkbox" class="form-control"
+											id="usepersis">
+									</div>
+									<div class="form-group">
+										<label for="directory" class="control-label">Directory:</label>
+										<input type="text" class="form-control" id="directory">
+									</div>
+								</form>
+							</div>
+							<div class="modal-body">
+								<label for="recipient-name" class="control-label">Last
+									Will And Testament Settings:</label>
+								<form class="form-inline">
+									<div class="form-group topic">
+										<label for="topic" class="control-label">Topic:</label> <input
+											type="text" class="form-control" id="topic">
+									</div>
+									<div class="form-group qos">
+										<label for="qos" class="control-label">Qos</label> <select>
+											<option>0</option>
+											<option>1</option>
+											<option>2</option>
+										</select>
+									</div>
+									<div class="form-group retained">
+										<label for="topic" class="control-label">Retained:</label> <input
+											type="checkbox" class="form-control" id="topic">
+									</div>
+									<div class="form-group">
+										<textarea class="form-control msg" id="message-text"></textarea>
+									</div>
+								</form>
+							</div>
+
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default"
+									data-dismiss="modal">Cancel</button>
+								<button type="button" class="btn btn-primary">Apply</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
-	<div class=""></div>
+
+	<div class="content">
+		<!-- Nav tabs -->
+		<ul class="nav nav-tabs" role="tablist">
+			<li role="presentation" class="active"><a href="#subscribe"
+				aria-controls="subscribe" role="tab" data-toggle="tab">Subscribe</a></li>
+			<li role="presentation"><a href="#publish"
+				aria-controls="publish" role="tab" data-toggle="tab">Publish</a></li>
+			<li role="presentation"><a href="#brokerstatus"
+				aria-controls="brokerstatus" role="tab" data-toggle="tab">BrokerStatus</a></li>
+			<li role="presentation"><a href="#log" aria-controls="log"
+				role="tab" data-toggle="tab">Log</a></li>
+		</ul>
+		<div class="tab-content ">
+			<div role="tabpanel" class="tab-pane fade in active" id="subscribe">
+				<form class="form-inline">
+					<div class="form-group content-topic">
+						<label for="topic" class="control-label">Topic:</label> <input
+							type="text" class="form-control" id="topic">
+					</div>
+					<div class="form-group ">
+						<button button type="button" class="btn btn-primary form-control">Subscribe</button>
+					</div>
+
+					<div class="form-group qos">
+						<label for="qos" class="control-label">Qos</label> <select>
+							<option>0</option>
+							<option>1</option>
+							<option>2</option>
+						</select>
+					</div>
+					<div class="form-group retained">
+						<label for="topic" class="control-label">Retained:</label> <input
+							type="checkbox" class="form-control" id="topic">
+					</div>
+				</form>
+
+				<div class="panel panel-default" id="message">
+					<div class="panel-body"></div>
+				</div>
+			</div>
+
+			<div role="tabpanel" class="tab-pane fade" id="publish">Publish...</div>
+			<div role="tabpanel" class="tab-pane fade" id="brokerstatus">BrokerStatus...</div>
+			<div role="tabpanel" class="tab-pane fade" id="log">Log...</div>
+		</div>
+
+	</div>
 
 
 	<!--公共js-->
-	<script type="text/javascript"
-		src="plugin/jquery/jquery.min.js"></script>
+	<script type="text/javascript" src="plugin/jquery/jquery.min.js"></script>
 	<script type="text/javascript"
 		src="plugin/bootstrap/js/bootstrap.min.js"></script>
-	<script type="text/javascript"
-		src="plugin/layer/layer.min.js"></script>
+	<script type="text/javascript" src="plugin/layer/layer.min.js"></script>
 	<!--独有js-->
 	<script type="text/javascript" src="js/index.js"></script>
+
+	<script type="text/javascript">
+		$('#myModal').on('shown.bs.modal', function() {
+			$('#myInput').focus()
+		})
+	</script>
+
 </body>
 </html>

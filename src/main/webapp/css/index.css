@@ -1,0 +1,73 @@
+@CHARSET "UTF-8";
+.header{
+	margin-top:10px;
+	margin-left:15%;
+	margin-right:15%;
+}
+.header #address{
+	width: 200px;
+}
+.header #port{
+	width: 100px;
+	margin-right: 20px;
+}
+#connopts {
+	position: relative;
+	float:right;
+}
+
+#connopts .clientId{
+	margin-left: 30px;
+}
+
+#connopts .keepalive{
+	margin-left: 165px;
+}
+#connopts .retryInput{
+	width: 50px;
+}
+#connopts .usepersis{
+	margin-left: 73px;
+}
+#connopts .qos{
+	margin-left: 50px;
+}
+#connopts .retained{
+	margin-left: 50px;
+}
+#connopts .msg{
+	margin-top:10px;
+	width: 560px;
+	height: 100px;
+}
+
+.content{
+	margin-left:15%;
+	margin-right:15%;
+}
+.content #subscribe{
+	margin-top: 10px;
+	
+}
+
+.content #subscribe .qos{
+	margin-left:50%; 
+}
+.content #subscribe .retained{
+	margin-left:2%; 
+}
+.content #subscribe .content-topic #topic{
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
