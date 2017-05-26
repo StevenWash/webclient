@@ -43,28 +43,28 @@
 										<label for="sessionopts" class="control-label ">Session
 											Options:</label>
 										<button type="button" class="btn btn-primary form-control"
-											id="sessionopts" value="1">Trace(start)</button>
+											id="sessionopts"></button>
 									</div>
 									<div class="form-group clientId">
 										<label for="clientId" class="control-label">Client
 											Identifier:</label> <input type="text" class="form-control"
-											id="clientId" value="Mqtt-web-client">
+											id="clientId" >
 										</textarea>
 									</div>
 									<div class="form-group">
 										<label for="cleansession" class="control-label">Clean
 											Session:</label> <input type="checkbox" class="form-control"
-											id="cleansession" checked="checked">
+											id="cleansession" >
 									</div>
 									<div class="form-group keepalive">
 										<label for="keepalive" class="control-label">Keep
 											Alive:</label> <input type="text" class="form-control" id="keepalive"
-											value="30">
+											>
 									</div>
 									<div class="form-group">
 										<label for="retryinterval" class="control-label">Retry
 											Interval:</label> <input type="text" class="form-control retryInput"
-											id="retryinterval" value="30"><label>Sec</label>
+											id="retryinterval" ><label>Sec</label>
 									</div>
 									<div class="form-group usepersis">
 										<label for="usepersis" class="control-label">Use
@@ -86,7 +86,7 @@
 											type="text" class="form-control" id="topic">
 									</div>
 									<div class="form-group qos">
-										<label for="qos" class="control-label">Qos</label> <select>
+										<label for="qos" class="control-label">Qos</label> <select id="selQos">
 											<option>0</option>
 											<option>1</option>
 											<option>2</option>
@@ -94,7 +94,7 @@
 									</div>
 									<div class="form-group retained">
 										<label for="topic" class="control-label">Retained:</label> <input
-											type="checkbox" class="form-control" id="topic">
+											type="checkbox" class="form-control" id="retained">
 									</div>
 									<div class="form-group">
 										<textarea class="form-control msg" id="message-text"></textarea>
@@ -114,7 +114,7 @@
 		</div>
 	</div>
 
-	<div class="content">
+	<div class="content" id="content">
 		<!-- Nav tabs -->
 		<ul class="nav nav-tabs" role="tablist">
 			<li role="presentation" class="active"><a href="#subscribe"
@@ -138,7 +138,7 @@
 					</div>
 
 					<div class="form-group qos">
-						<label for="qos" class="control-label">Qos</label> <select>
+						<label for="qos" class="control-label">Qos</label> <select id="selQos">
 							<option>0</option>
 							<option>1</option>
 							<option>2</option>
@@ -146,7 +146,7 @@
 					</div>
 					<div class="form-group retained">
 						<label for="topic" class="control-label">Retained:</label> <input
-							type="checkbox" class="form-control" id="topic">
+							type="checkbox" class="form-control" id="retained">
 					</div>
 				</form>
 

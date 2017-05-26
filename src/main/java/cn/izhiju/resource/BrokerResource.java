@@ -1,6 +1,8 @@
 package cn.izhiju.resource;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -21,25 +23,28 @@ public class BrokerResource {
 
 	@GET
 	@Path("/getDefaultConnProp")
-	@Produces(MediaType.APPLICATION_JSON)
-	public ConnectProperties getDefaultConnProper() {
-		List<String> props = PropertiesUtils.getValues("classpath:default-conn.properties");
-		String ipAddress = props.get(0);
-		String port = props.get(1);
-		int tarcestart = Integer.parseInt(props.get(2));// 0±Ì æstop ,1±Ì æstart
-		String clientId = props.get(3);
-		String cleanSession = props.get(4);// on±Ì æ√ª—°÷–£¨ off±Ì æ—°÷–
-		int keepAlive = Integer.parseInt(props.get(5));
-		int retryInterval = Integer.parseInt(props.get(6));
-		String usePersistence = props.get(7);// 0±Ì æ√ª—°÷–£¨ 1±Ì æ—°÷–
-		String directory = props.get(8);
-		String topic = props.get(9);
-		int qos = Integer.parseInt(props.get(10));// »°÷µŒ™0 £¨1 £¨2
-		int retained = Integer.parseInt(props.get(11));// 0±Ì æ√ª—°÷–£¨ 1±Ì æ—°÷–
-		String data = props.get(12);
-		System.out.println("test");
-		return new ConnectProperties(ipAddress, port, tarcestart, clientId, cleanSession, keepAlive, retryInterval,
+	@Produces(MediaType.TEXT_PLAIN)
+	public String getDefaultConnProper() {
+		Properties props = PropertiesUtils.getProperties("C:/Users/Èë´/git/webclient/src/main/resources/conn.properties");
+		
+		String ipAddress = props.getProperty("ipAddress");
+		String port = props.getProperty("port");
+		String tracestart = props.getProperty("tracestart");
+		String clientId = props.getProperty("clientId");
+		String cleanSession = props.getProperty("cleanSession");
+		String keepAlive = props.getProperty("keepAlive");
+		String retryInterval = props.getProperty("retryInterval");
+		String usePersistence = props.getProperty("usePersistence");
+		String directory = props.getProperty("directory");
+		String topic = props.getProperty("topic");
+		String qos = props.getProperty("qos");
+		String retained = props.getProperty("retained");
+		String data = props.getProperty("data");
+		
+		ConnectProperties conn=new ConnectProperties(ipAddress, port, tracestart, clientId, cleanSession, keepAlive, retryInterval,
 				usePersistence, directory, topic, qos, retained, data);
+		System.out.println("conn:"+conn.toString());
+		return conn.toString();
 	}
 
 	@GET
@@ -47,17 +52,18 @@ public class BrokerResource {
 	@Produces(MediaType.TEXT_PLAIN)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String connect(@QueryParam("ipAddress") String ipAddress, @QueryParam("port") String port,
-			@QueryParam("tarcestart") int tarcestart, @QueryParam("clientId") String clientId,
-			@QueryParam("cleanSession") String cleanSession, @QueryParam("keepAlive") int keepAlive,
-			@QueryParam("retryInterval") int retryInterval, @QueryParam("usePersistence") String usePersistence,
-			@QueryParam("directory") String directory, @QueryParam("topic") String topic, @QueryParam("qos") int qos,
-			@QueryParam("retained") int retained, @QueryParam("data") String data) {
-
-		ConnectProperties connPro = new ConnectProperties(ipAddress, port, tarcestart, clientId, cleanSession,
+			@QueryParam("tracestart") String tracestart, @QueryParam("clientId") String clientId,
+			@QueryParam("cleanSession") String cleanSession, @QueryParam("keepAlive") String keepAlive,
+			@QueryParam("retryInterval") String retryInterval, @QueryParam("usePersistence") String usePersistence,
+			@QueryParam("directory") String directory, @QueryParam("topic") String topic, @QueryParam("qos") String qos,
+			@QueryParam("retained") String retained, @QueryParam("data") String data) {
+		
+		
+		ConnectProperties connPro = new ConnectProperties(ipAddress, port, tracestart, clientId, cleanSession,
 				keepAlive, retryInterval, usePersistence, directory, topic, qos, retained, data);
 		System.out.println(connPro.toString());
 		if (connPro.getIpAddress().equals("127.0.0.1") && connPro.getPort().equals("1883")) {
-			// brokerService.connectBroker(, connPro);
+			brokerService.connectBroker(connPro);
 
 			return "connect sunccess";
 		}

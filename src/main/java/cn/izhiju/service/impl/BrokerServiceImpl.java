@@ -9,8 +9,8 @@ import cn.izhiju.service.BrokerService;
 public class BrokerServiceImpl implements BrokerService {
 
 	@Override
-	public boolean connectBroker(String connUrl, ConnectProperties connPro) {
-		System.out.println("connUrl:"+connUrl+"  connPro:"+connPro.toString());
+	public boolean connectBroker(ConnectProperties connPro) {
+		System.out.println("  connPro:"+connPro.toString());
 		return false;
 	}
 

@@ -16,6 +16,7 @@ public class PropertiesUtils {
 	 * @return
 	 */
 	public static Properties getProperties(String path){
+		System.out.println("path:"+path);
 		Properties properties = new Properties();
 		FileInputStream fis = null;
 		try {
@@ -37,6 +38,7 @@ public class PropertiesUtils {
 		
 		for (Object object : collection) {
 			String value = (String) object;
+			System.out.println("value:"+value);
 			list.add(value);
 		}
 		return list;

@@ -8,11 +8,11 @@ import cn.izhiju.service.impl.BrokerServiceImpl;
 @ImplementedBy(BrokerServiceImpl.class)
 public interface BrokerService {
 	/**
-	 * ½øÐÐÁ¬½Óbroker
-	 * @param connUrl Á¬½ÓµÄurl£¨ip+port£©
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½broker
+	 * @param connUrl ï¿½ï¿½ï¿½Óµï¿½urlï¿½ï¿½ip+portï¿½ï¿½
 	 * @param connPro
-	 * @return ÊÇ·ñÁ¬½Ó³É¹¦
+	 * @return ï¿½Ç·ï¿½ï¿½ï¿½ï¿½Ó³É¹ï¿½
 	 */
-	public boolean connectBroker(String connUrl,ConnectProperties connPro);
+	public boolean connectBroker(ConnectProperties connPro);
 
 }

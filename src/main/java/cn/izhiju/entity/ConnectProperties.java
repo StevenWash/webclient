@@ -6,21 +6,22 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class ConnectProperties {
 	private String ipAddress;
 	private String port;
-	private int tarcestart;//0表示stop ,1表示start
+	private String tarcestart;//0锟斤拷示stop ,1锟斤拷示start
 	private String clientId;
-	private String cleanSession;//on表示没选中， off表示选中
-	private int keepAlive;
-	private int retryInterval;
-	private String usePersistence;//0表示没选中， 1表示选中
+	private String cleanSession;//on锟斤拷示没选锟叫ｏ拷 off锟斤拷示选锟斤拷
+	private String keepAlive;
+	private String retryInterval;
+	private String usePersistence;//0锟斤拷示没选锟叫ｏ拷 1锟斤拷示选锟斤拷
 	private String directory;
 	private String topic;
-	private int qos;//取值为0 ，1 ，2
-	private int retained;//0表示没选中， 1表示选中
+	private String qos;//取值为0 锟斤拷1 锟斤拷2
+	private String retained;//0锟斤拷示没选锟叫ｏ拷 1锟斤拷示选锟斤拷
 	private String data;
 	
-	public ConnectProperties(String ipAddress, String port, int tarcestart, String clientId, String cleanSession,
-			int keepAlive, int retryInterval, String usePersistence, String directory, String topic, int qos, int retained,
-			String data) {
+	public ConnectProperties(String ipAddress, String port, String tarcestart,
+			String clientId, String cleanSession, String keepAlive,
+			String retryInterval, String usePersistence, String directory,
+			String topic, String qos, String retained, String data) {
 		super();
 		this.ipAddress = ipAddress;
 		this.port = port;
@@ -37,6 +38,13 @@ public class ConnectProperties {
 		this.data = data;
 	}
 
+	@Override
+	public String toString() {
+		return "ConnectProperties [ipAddress=" + ipAddress + ", port=" + port + ", tarcestart=" + tarcestart
+				+ ", clientId=" + clientId + ", cleanSession=" + cleanSession + ", keepAlive=" + keepAlive
+				+ ", retryInterval=" + retryInterval + ", usePersistence=" + usePersistence + ", directory=" + directory
+				+ ", topic=" + topic + ", qos=" + qos + ", retained=" + retained + ", data=" + data + "]";
+	}
 
 	//setter  getter
 	public String getIpAddress() {
@@ -59,12 +67,12 @@ public class ConnectProperties {
 	}
 
 
-	public int getTarcestart() {
+	public String getTarcestart() {
 		return tarcestart;
 	}
 
 
-	public void setTarcestart(int tarcestart) {
+	public void setTarcestart(String tarcestart) {
 		this.tarcestart = tarcestart;
 	}
 
@@ -89,22 +97,22 @@ public class ConnectProperties {
 	}
 
 
-	public int getKeepAlive() {
+	public String getKeepAlive() {
 		return keepAlive;
 	}
 
 
-	public void setKeepAlive(int keepAlive) {
+	public void setKeepAlive(String keepAlive) {
 		this.keepAlive = keepAlive;
 	}
 
 
-	public int getRetryInterval() {
+	public String getRetryInterval() {
 		return retryInterval;
 	}
 
 
-	public void setRetryInterval(int retryInterval) {
+	public void setRetryInterval(String retryInterval) {
 		this.retryInterval = retryInterval;
 	}
 
@@ -139,22 +147,22 @@ public class ConnectProperties {
 	}
 
 
-	public int getQos() {
+	public String getQos() {
 		return qos;
 	}
 
 
-	public void setQos(int qos) {
+	public void setQos(String qos) {
 		this.qos = qos;
 	}
 
 
-	public int getRetained() {
+	public String getRetained() {
 		return retained;
 	}
 
 
-	public void setRetained(int retained) {
+	public void setRetained(String retained) {
 		this.retained = retained;
 	}
 
@@ -166,15 +174,6 @@ public class ConnectProperties {
 
 	public void setData(String data) {
 		this.data = data;
-	}
-
-
-	@Override
-	public String toString() {
-		return "ConnectProperties [ipAddress=" + ipAddress + ", port=" + port + ", tarcestart=" + tarcestart
-				+ ", clientId=" + clientId + ", cleanSession=" + cleanSession + ", keepAlive=" + keepAlive
-				+ ", retryInterval=" + retryInterval + ", usePersistence=" + usePersistence + ", directory=" + directory
-				+ ", topic=" + topic + ", qos=" + qos + ", retained=" + retained + ", data=" + data + "]";
 	}
 
 }
