@@ -2,8 +2,6 @@ package cn.izhiju.resource;
 
 import java.util.Properties;
 
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.ws.rs.Consumes;
