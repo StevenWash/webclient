@@ -29,6 +29,11 @@ public class PropertiesUtils {
 		return properties;
 	}
 	
+	/**
+	 * 获取properties文件中的所有值，以集合返回
+	 * @param path
+	 * @return
+	 */
 	public static List<String> getValues(String path){
 		Properties properties = getProperties(path);
 		
