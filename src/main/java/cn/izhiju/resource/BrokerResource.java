@@ -1,15 +1,21 @@
 package cn.izhiju.resource;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Properties;
 
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+
+import org.eclipse.paho.client.mqttv3.MqttException;
+import org.eclipse.paho.client.mqttv3.MqttSecurityException;
 
 import cn.izhiju.entity.ConnectProperties;
 import cn.izhiju.service.BrokerService;
@@ -17,15 +23,17 @@ import cn.izhiju.service.impl.BrokerServiceImpl;
 import cn.izhiju.utils.PropertiesUtils;
 
 @Path("/broker")
-public class BrokerResource {
-
-	BrokerService brokerService = new BrokerServiceImpl();
+public class BrokerResource{
+	private BrokerService brokerService = new BrokerServiceImpl();
+	@Context HttpServletRequest request;  
+	@Context HttpSession session;
+	private ConnectProperties connPro;
 
 	@GET
 	@Path("/getDefaultConnProp")
 	@Produces(MediaType.TEXT_PLAIN)
 	public String getDefaultConnProper() {
-		Properties props = PropertiesUtils.getProperties("C:/Users/鑫/git/webclient/src/main/resources/conn.properties");
+		Properties props = PropertiesUtils.getProperties("G:/huaxin/documents/work file/git/webclient/webclient/src/main/resources/conn.properties");
 		
 		String ipAddress = props.getProperty("ipAddress");
 		String port = props.getProperty("port");
@@ -56,18 +64,28 @@ public class BrokerResource {
 			@QueryParam("cleanSession") String cleanSession, @QueryParam("keepAlive") String keepAlive,
 			@QueryParam("retryInterval") String retryInterval, @QueryParam("usePersistence") String usePersistence,
 			@QueryParam("directory") String directory, @QueryParam("topic") String topic, @QueryParam("qos") String qos,
-			@QueryParam("retained") String retained, @QueryParam("data") String data) {
-		
-		
-		ConnectProperties connPro = new ConnectProperties(ipAddress, port, tracestart, clientId, cleanSession,
+			@QueryParam("retained") String retained, @QueryParam("data") String data) throws MqttSecurityException, MqttException {
+		connPro = new ConnectProperties(ipAddress, port, tracestart, clientId, cleanSession,
 				keepAlive, retryInterval, usePersistence, directory, topic, qos, retained, data);
 		System.out.println(connPro.toString());
-		if (connPro.getIpAddress().equals("127.0.0.1") && connPro.getPort().equals("1883")) {
-			brokerService.connectBroker(connPro);
-
+		if (brokerService.connectBroker(connPro)) {
+			session=request.getSession();
+			session.setAttribute("connPro",connPro);
 			return "connect sunccess";
 		}
 		return "connect failed";
 	}
 
+	@GET
+	@Path("/subscribe")
+	@Produces(MediaType.TEXT_PLAIN)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public String subscribe(@QueryParam("topic") String topic){
+		System.out.println("topic:"+topic);
+		session=request.getSession();
+		connPro=(ConnectProperties) session.getAttribute("connPro");
+		System.out.println("connPro:"+connPro.toString());
+		brokerService.subscribeTopic(topic, connPro,"subscribe");
+		return "subsuccess";
+	}
 }

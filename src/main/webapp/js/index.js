@@ -98,6 +98,7 @@ $(".header").find("#sessionopts").bind('click',(function() {
  */
 $(".header").delegate("#connectbtn","click",function(event){
 	// 当DOM元素加载完成后发送ajax请求，获取渲染界面的JSON数据
+	//alert($(".header").find("#connopts").find("#cleansession").val());
     $.ajax({
         type:"GET",
         data:{
@@ -105,7 +106,7 @@ $(".header").delegate("#connectbtn","click",function(event){
         	port:$(".header").find("#port").val(),
         	tracestart:$(".header").find("#connopts").find("#sessionopts").val(),
         	clientId:$(".header").find("#connopts").find("#clientId").val(),
-        	cleanSession:$(".header").find("#connopts").find("#clean").val(),
+        	cleanSession:$(".header").find("#connopts").find("#cleansession").val(),
         	keepAlive:$(".header").find("#connopts").find("#keepalive").val(),
         	retryInterval:$(".header").find("#connopts").find("#retryinterval").val(),
         	usePersistence:$(".header").find("#connopts").find("#usepersis").val(),
@@ -127,10 +128,25 @@ $(".header").delegate("#connectbtn","click",function(event){
     })
 })
 
-$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-	// alert(e.target);
- 
- // alert(e.relatedTarget)
+/**
+ * 添加subscribe按钮的点击事件
+ */
+$(".content").delegate("#subscribeBtn","click",function(event){
+	alert($(".content").find("#topic").val());
+	if(topic!=null&&topic!=''&&topic.length>0){
+		 $.ajax({
+		        type:"GET",
+		        data:{
+		        	topic:$(".content").find("#topic").val()
+		        },
+		        url:"api/broker/subscribe",
+		        success:function(res){// 请求响应成功后的回调函数。其中res是返回的数据
+		        	alert(res);
+		        }// end success:function
+		    })
+	}else
+		alert("请输入topic...");
+	
 })
 
 
