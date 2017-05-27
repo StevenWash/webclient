@@ -14,7 +14,7 @@ public interface BrokerService {
 	/**
 	 * 进行连接操作，传入的参数是所有的连接属性值，包括ip和port
 	 * @param connPro 包含所有的连接属性
-	 * @return
+	 * @return 是否连接成功
 	 * @throws MqttException 
 	 * @throws MqttSecurityException 
 	 */
@@ -25,7 +25,7 @@ public interface BrokerService {
 	 * @param topic
 	 * @param connPro
 	 * @param method 判断是进行订阅还是取消订阅
-	 * @return
+	 * @return 一个有关连接的字符串
 	 */
 	public String subscribeTopic(String topic ,ConnectProperties connPro,String method);
 
