@@ -26,7 +26,8 @@ public interface BrokerService {
 	 * @param connPro
 	 * @param method 判断是进行订阅还是取消订阅
 	 * @return 一个有关连接的字符串
+	 * @throws MqttException 
 	 */
-	public String subscribeTopic(String topic ,ConnectProperties connPro,String method);
+	public String subscribeTopic(String topic ,ConnectProperties connPro,String method) throws MqttException;
 
 }
