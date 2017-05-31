@@ -79,11 +79,9 @@ public class BrokerResource{
 	@Produces(MediaType.TEXT_PLAIN)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String subscribe(@QueryParam("topic") String topic){
-		System.out.println("topic:"+topic);
 		session=request.getSession();
 		connPro=(ConnectProperties) session.getAttribute("connPro");
-		System.out.println("connPro:"+connPro.toString());
-		brokerService.subscribeTopic(topic, connPro,"subscribe");
-		return "subsuccess";
+		String msg=brokerService.subscribeTopic(topic, connPro,"subscribe");
+		return msg;
 	}
 }

@@ -12,14 +12,17 @@ import org.eclipse.paho.client.mqttv3.persist.MqttDefaultFilePersistence;
 
 import cn.izhiju.entity.ConnectProperties;
 import cn.izhiju.service.BrokerService;
+import cn.izhiju.service.MessageDeal;
 
 public class BrokerServiceImpl implements BrokerService, MqttCallback {
 	private final static int RETRYINTERVAL=1000;
+	private static ConnectProperties connPro=new ConnectProperties();
 	
-	private MqttClient mqtt;
+	private static MqttClient mqtt;
 	private MqttConnectOptions opts;
 	private static boolean connected;
 	private Object connLostWait=new Object();
+	
 
 	
 	public boolean connectBroker(ConnectProperties connPro) throws MqttSecurityException, MqttException {
@@ -52,20 +55,18 @@ public class BrokerServiceImpl implements BrokerService, MqttCallback {
 		opts.setKeepAliveInterval(Integer.parseInt(connPro.getKeepAlive() == "" ? "0" : connPro.getKeepAlive()));
 		opts.setUserName("kapua-sys");
 		opts.setPassword("kapua-password".toCharArray());
-
-		//System.out.println("test1:"+opts.toString());
 		if (connPro.getRetained().equals("1")) {
 			opts.setWill(mqtt.getTopic("topic"), connPro.getData().getBytes(),
 					Integer.parseInt(connPro.getQos()), connPro.getRetained().equals("1"));
 		}
-		//System.out.println("test2:"+opts.toString());
 		System.out.println("connPro:" + connPro.toString());
 		try {
 			mqtt.connect(opts);
 			connected=true;
+			BrokerServiceImpl.connPro=connPro;
 			return true;
 		} catch (Exception e) {
-			e.printStackTrace();;
+			e.printStackTrace();
 			return false;
 		}
 	}
@@ -78,10 +79,12 @@ public class BrokerServiceImpl implements BrokerService, MqttCallback {
     		    int[] theseQoS = new int[1];
     		    theseTopics[0] = topic;
     		    theseQoS[0] = Integer.parseInt((connPro.getQos()==""?"0":connPro.getQos()));
-
+    		    
+    		    System.out.println("method:"+method+" topic:"+theseTopics[0]+"  qos:"+ theseQoS[0]);
         	    synchronized(this) { // Grab the log synchronisation lock
                   if ( method.equals("subscribe") ) {
-                	  mqtt.subscribe( theseTopics, theseQoS );
+                	  System.out.println("test");
+                	  mqtt.subscribe(theseTopics, theseQoS);
             	      System.out.println( "  --> SUBSCRIBE,        TOPIC:" + topic + ", Requested QoS:" + connPro.getQos() );
                   } else {
                 	  mqtt.unsubscribe( theseTopics );
@@ -90,14 +93,12 @@ public class BrokerServiceImpl implements BrokerService, MqttCallback {
         	    }
         	    return "subscribe";
     		} catch ( Exception ex ) {
+    			ex.printStackTrace();
     			System.out.println("MQTT subscription exception caught !");
-        		/*setTitleText( "MQTT subscription exception caught !" );
-        		JOptionPane.showMessageDialog( frame, ex.getMessage(), "MQTT Subscription Exception", JOptionPane.ERROR_MESSAGE );*/
     		}	
     	} else {
     		System.out.println("MQTT client not connected !");
     		return "unconnected";
-    		//setTitleText( "MQTT client not connected !" );
     	}
 		return "error";
 	}
@@ -112,7 +113,6 @@ public class BrokerServiceImpl implements BrokerService, MqttCallback {
 
 	@Override
 	public void connectionLost(Throwable arg0) {
-		System.out.println("connectionLost....");
 		int rc = -1;
 		System.out.println( "Connection Lost!....Reconnecting" );
    	    synchronized(this) { // Grab the log synchronisation lock
@@ -132,8 +132,7 @@ public class BrokerServiceImpl implements BrokerService, MqttCallback {
         	    synchronized(this) { // Grab the log synchronisation lock
         	    	if ( connected ) {
         	    		System.out.println( "MQTT reconnecting......" );
-        	    		System.out.println("reconnect....");
-						//connectBroker(connPro);
+						connectBroker(connPro);
 						rc = 0;		
         	    		if ( rc == -1 ) {
         	    			System.out.println( "failed" );
@@ -151,14 +150,16 @@ public class BrokerServiceImpl implements BrokerService, MqttCallback {
     	}	
 	}
 
-	@Override
+ 	@Override
 	public void deliveryComplete(IMqttDeliveryToken arg0) {
-		System.out.println("deliveryComplete....");
+		System.out.println("deliver yComplete....");
 	}
 
 	@Override
-	public void messageArrived(String arg0, MqttMessage arg1) throws Exception {
+	public void messageArrived(String topic, MqttMessage message) throws Exception {
 		System.out.println("messageArrived....");
+		System.out.println("topic:"+topic+"  message:"+message);
+		MessageDeal msgDeal=new MessageDeal();
+		msgDeal.incoming(message.toString());
 	}
-
 }

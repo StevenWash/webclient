@@ -18,6 +18,10 @@ public class ConnectProperties {
 	private String retained;//0��ʾûѡ�У� 1��ʾѡ��
 	private String data;
 	
+	public ConnectProperties() {
+		// TODO Auto-generated constructor stub
+	}
+	
 	public ConnectProperties(String ipAddress, String port, String tarcestart,
 			String clientId, String cleanSession, String keepAlive,
 			String retryInterval, String usePersistence, String directory,
