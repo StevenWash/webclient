@@ -23,8 +23,6 @@ public class BrokerServiceImpl implements BrokerService, MqttCallback {
 	private static boolean connected;
 	private Object connLostWait=new Object();
 	
-
-	
 	public boolean connectBroker(ConnectProperties connPro) throws MqttSecurityException, MqttException {
 		// Connect to the broker
 		// If we have a MqttClient object and the new ip address
@@ -103,6 +101,44 @@ public class BrokerServiceImpl implements BrokerService, MqttCallback {
 		return "error";
 	}
 	
+	public String disconnectBroker() {
+		if(connected==false)
+			return "unconnected";
+		connected = false;
+		// Notify connectionLost to give up. It may be running..
+		synchronized (connLostWait) {
+			connLostWait.notify();
+		}
+		// Disconnect from the broker
+		if (mqtt != null) {
+			try {
+				mqtt.disconnect();
+			} catch (Exception ex) {
+				System.out.println ("MQTT disconnect error !");
+				ex.printStackTrace();
+				//System.exit(1);
+				return "disconnect error";
+			}
+		}
+		System.out.println ("WebSphere MQ Telemetry transport disconnected");
+		return "disconnect success";
+	}
+
+	public String publishTopic(String topic, int qos, boolean retained,String message) {
+		if (connected) {
+			try {
+				mqtt.getTopic(topic).publish(message.getBytes(), qos,retained);
+			} catch (MqttException ex) {
+				System.out.println("MQTT publish exception !");
+				return "MQTT Publish Exception"+"\n"+ex.getClass().getName() + "\n" + ex.getMessage();
+			}
+		} else {
+			System.out.println("MQTT client not connected !");
+			return ("MQTT client not connected");
+		}
+		return "error";
+	}
+	
 	/**
      * This method calls the MQTT startTrace method to produce trace of the protocol flows
      * @throws MqttException on error
@@ -152,7 +188,7 @@ public class BrokerServiceImpl implements BrokerService, MqttCallback {
 
  	@Override
 	public void deliveryComplete(IMqttDeliveryToken arg0) {
-		System.out.println("deliver yComplete....");
+		System.out.println("deliver Complete....");
 	}
 
 	@Override
@@ -160,6 +196,8 @@ public class BrokerServiceImpl implements BrokerService, MqttCallback {
 		System.out.println("messageArrived....");
 		System.out.println("topic:"+topic+"  message:"+message);
 		MessageDeal msgDeal=new MessageDeal();
-		msgDeal.incoming(message.toString());
+		msgDeal.incoming(topic+":"+message.toString());
 	}
+
+
 }

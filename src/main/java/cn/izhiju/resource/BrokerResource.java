@@ -5,7 +5,9 @@ import java.util.Properties;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
@@ -69,7 +71,7 @@ public class BrokerResource{
 		if (brokerService.connectBroker(connPro)) {
 			session=request.getSession();
 			session.setAttribute("connPro",connPro);
-			return "connect sunccess";
+			return "connect success";
 		}
 		return "connect failed";
 	}
@@ -78,10 +80,33 @@ public class BrokerResource{
 	@Path("/subscribe")
 	@Produces(MediaType.TEXT_PLAIN)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public String subscribe(@QueryParam("topic") String topic){
+	public String subscribe(@QueryParam("topic") String topic) throws MqttException{
 		session=request.getSession();
 		connPro=(ConnectProperties) session.getAttribute("connPro");
 		String msg=brokerService.subscribeTopic(topic, connPro,"subscribe");
 		return msg;
 	}
+	
+	@GET
+	@Path("/publish")
+	@Produces(MediaType.TEXT_PLAIN)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public String publish(@QueryParam("topic") String topic,@QueryParam("message") String message){
+		System.out.println("topic:"+topic+"  message:"+message);
+		session=request.getSession();
+		connPro=(ConnectProperties) session.getAttribute("connPro");
+		int qos=Integer.parseInt((connPro.getQos()==""?"0":connPro.getQos()));
+		boolean retained=connPro.getRetained().equals("1");
+		System.out.println("qos:"+qos+" retained:"+retained);
+		String msg=brokerService.publishTopic(topic, qos, retained, message);
+		return msg;
+	}
+	
+	@GET
+	@Path("/disconnect")
+	@Produces(MediaType.TEXT_PLAIN)
+	public String disconnect(){
+		return brokerService.disconnectBroker();
+	}
 }
+

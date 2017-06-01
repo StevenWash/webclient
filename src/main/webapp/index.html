@@ -114,6 +114,7 @@
 		</div>
 	</div>
 
+	<!-- 显示内容 -->
 	<div class="content" id="content">
 		<!-- Nav tabs -->
 		<ul class="nav nav-tabs" role="tablist" >
@@ -127,10 +128,11 @@
 				role="tab" data-toggle="tab">Log</a></li>
 		</ul>
 		<div class="tab-content ">
+			<!-- 对应的 Subscribe标签页-->
 			<div role="tabpanel" class="tab-pane fade in active" id="subscribe">
 				<form class="form-inline">
 					<div class="form-group content-topic">
-						<label for="topic" class="control-label">Topic:</label> <input
+						<label for="topic" class="control-label"> >> Topic:</label> <input
 							type="text" class="form-control" id="topic">
 					</div>
 					<div class="form-group ">
@@ -145,34 +147,57 @@
 						</select>
 					</div>
 					<div class="form-group retained">
-						<label for="topic" class="control-label">Retained:</label> <input
+						<label for="topic" class="control-label">ShowOnlyLatest:</label> <input
 							type="checkbox" class="form-control" id="retained">
 					</div>
 				</form>
 
-				<div class="panel panel-default" id="message">
-					<div class="panel-body"></div>
+				<!--用来显示接收到的消息  -->
+				<div class="panel panel-primary msg-content">
+					<div class="panel-heading">
+				    	<h3 class="panel-title">Message Content</h3>
+				    </div>
+			  		<div class="panel-body" id="console"></div>
 				</div>
+				
 			</div>
-
-			<div role="tabpanel" class="tab-pane fade" id="publish">Publish...</div>
+			<!-- 对应的 Publish标签页-->
+			<div role="tabpanel" class="tab-pane fade" id="publish">
+				<form class="form-inline">
+					<div class="form-group content-topic">
+						<label for="topic" class="control-label"> << Topic:</label> <input
+							type="text" class="form-control" id="topic">
+					</div>
+					<div class="form-group ">
+						<button id="publishBtn" type="button" class="btn btn-primary form-control">Publish</button>
+					</div>
+					<div class="form-group qos">
+						<label for="qos" class="control-label">Qos</label> <select id="selQos">
+							<option>0</option>
+							<option>1</option>
+							<option>2</option>
+						</select>
+					</div>
+					<div class="form-group retained">
+						<label for="topic" class="control-label">Retained:</label> <input
+							type="checkbox" class="form-control" id="retained">
+					</div>
+					<div class="form-group pubmsg">
+			            <textarea class="form-control" id="message-text" ></textarea>
+			        </div>
+				</form>
+				
+			</div>
+			<!-- 对应的 BrokerStatus标签页-->
 			<div role="tabpanel" class="tab-pane fade" id="brokerstatus">BrokerStatus...</div>
+			<!-- 对应的 Log标签页-->
 			<div role="tabpanel" class="tab-pane fade" id="log">Log...</div>
 		</div>
 
 	</div>
 
-	<!--  -->
-	<div>
-		<p>
-			<input type="text" placeholder="type and press enter to chat"
-				id="chat" />
-		</p>
-		<div id="console-container">
-			<div id="console" />
-		</div>
-	</div>
-
+	
+	
 	<!--公共js-->
 	<script type="text/javascript" src="plugin/jquery/jquery.min.js"></script>
 	<script type="text/javascript"

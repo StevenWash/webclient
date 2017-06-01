@@ -20,6 +20,13 @@ public interface BrokerService {
 	 */
 	public boolean connectBroker(ConnectProperties connPro) throws MqttSecurityException, MqttException;
 	
+	
+	/**
+	 * 断开连接的操作
+	 * @return 有关操作结果的提示信息
+	 */
+	public String disconnectBroker();
+	
 	/**
 	 * 订阅某一个主题
 	 * @param topic
@@ -29,5 +36,14 @@ public interface BrokerService {
 	 * @throws MqttException 
 	 */
 	public String subscribeTopic(String topic ,ConnectProperties connPro,String method) throws MqttException;
+	
+	/**
+	 * 发布消息到某个主题
+	 * @param topic  消息发布的主题
+	 * @param connPro  用户的连接信息
+	 * @param message  消息的内容
+	 * @return  一个有关消息发送是否成功的字符串
+	 */
+	public String publishTopic(String topic, int qos, boolean retained,String message);
 
 }

@@ -31,22 +31,23 @@ public class MessageDeal {
     public void start(Session session) {
         this.session = session;
         connections.add(this);
-        String message = String.format("* %s %s", nickname, "has joined.");
+        //String message = String.format("* %s %s", nickname, "has joined.");
+        String message="mqtt session start";
         broadcast(message);
     }
 
     @OnClose
     public void end() {
         connections.remove(this);
-        String message = String.format("* %s %s",
-                nickname, "has disconnected.");
+       // String message = String.format("* %s %s", nickname, "has disconnected.");
+        String message="mqtt session end";
         broadcast(message);
     }
 
 
     @OnError
     public void onError(Throwable t) throws Throwable {
-        System.out.println("Chat Error: " + t.toString());
+    	broadcast("mqtt Error: " + t.toString());
     }
 	
 	  /** 
@@ -55,16 +56,13 @@ public class MessageDeal {
      */  
     @OnMessage  
     public void incoming(String message) {  
-    	System.out.println("incoming:"+message);
         broadcast(message);  
     } 
     
     private static void broadcast(String msg) {
-    	System.out.println("test1");
         for (MessageDeal client : connections) {
             try {
                 synchronized (client) {
-                	System.out.println(client.session.getBasicRemote());
                     client.session.getBasicRemote().sendText(msg);
                 }
             } catch (IOException e) {

@@ -47,16 +47,45 @@
 }
 .content #subscribe{
 	margin-top: 10px;
-	
+}
+.content #subscribe #topic{
+	width: 400px;
 }
 .content #subscribe .qos{
-	margin-left:40%; 
+	margin-left:23%; 
 }
 .content #subscribe .retained{
 	margin-left:2%; 
 }
 
+.msg-content{
+	margin-top:10px;
+}
 
+.content #publish{
+	margin-top: 10px;
+}
+.content #publish .qos{
+	margin-left:26%; 
+}
+.content #publish .retained{
+	margin-left:2%; 
+}
+.content #publish #topic{
+	width: 400px;
+}
+.content #publish .pubmsg {
+	width:100%;/*自动适应父布局宽度*/  
+ 	overflow:auto;  
+ 	margin-top: 10px;
+}
+.content #publish .pubmsg #message-text{
+	width:94%;/*自动适应父布局宽度*/  
+	height:500px;
+ 	overflow:auto;  
+ 	word-break:break-all; 
+ 	margin-left: 3%;
+}
 
 
 
